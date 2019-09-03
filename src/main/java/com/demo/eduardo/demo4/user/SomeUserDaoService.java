@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component   // Managed by Spring
 public class SomeUserDaoService {
 	
 	private static List<SomeUser> users = new ArrayList<SomeUser>();
@@ -33,7 +33,12 @@ public class SomeUserDaoService {
 	}
 	
 	public SomeUser findSomeUser(int id) {
-		return users.get(id);
+		for(SomeUser someUser: users) {
+			if(someUser.getId() == id) {
+				return someUser;
+			}
+		}
+		return null;
 	}
 	
 	public void deleteSomeUser(int id) {

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.demo.eduardo.demo4.exception.UserNotFoundException;
+
 @RestController
 public class SomeUserResource {
 	
@@ -20,12 +22,13 @@ public class SomeUserResource {
 	private SomeUserDaoService someUserDaoService;
 	
 	// Get one
-	@GetMapping("/user/{id}")
+	@GetMapping("/users/{id}")
 	public SomeUser retrieveSomeUser(@PathVariable int id) {
-		if (someUserDaoService.findSomeUser(id) == null) {
-			throw new RuntimeException();
+		SomeUser someUser = someUserDaoService.findSomeUser(id);
+		if(someUser == null) {
+			throw new UserNotFoundException("id-" +id);
 		}
-		return someUserDaoService.findSomeUser(id);
+		return someUser;
 	}
 	
 	// Get all
@@ -35,7 +38,7 @@ public class SomeUserResource {
 	}
 	
 	// Post
-	@PostMapping("/user")
+	@PostMapping("/users")
 	public ResponseEntity<Object> createSomeUser(@RequestBody SomeUser user) {
 		// Creates new user and returns that Bean object
 		SomeUser savedUser = someUserDaoService.saveSomeUser(user);
@@ -50,7 +53,7 @@ public class SomeUserResource {
 	}
 	
 	// Delete
-	@DeleteMapping("/user/{id}")
+	@DeleteMapping("/users/{id}")
 	public void deleteSomeUser(@PathVariable int id) {
 		someUserDaoService.deleteSomeUser(id);
 	}
