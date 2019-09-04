@@ -2,10 +2,15 @@ package com.demo.eduardo.demo4.user;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class SomeUser {
 	
 	private Integer id;
+	@Size(min=2, message="This message would be shown to notice that the name must have 2 or more characters.")
 	private String name;
+	@Past
 	private Date birthDate;
 	
 	protected SomeUser() {

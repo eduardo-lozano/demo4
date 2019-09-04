@@ -3,6 +3,8 @@ package com.demo.eduardo.demo4.user;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +41,7 @@ public class SomeUserResource {
 	
 	// Post
 	@PostMapping("/users")
-	public ResponseEntity<Object> createSomeUser(@RequestBody SomeUser user) {
+	public ResponseEntity<Object> createSomeUser(@Valid @RequestBody SomeUser user) {
 		// Creates new user and returns that Bean object
 		SomeUser savedUser = someUserDaoService.saveSomeUser(user);
 		// Compose the URI of the new resource
