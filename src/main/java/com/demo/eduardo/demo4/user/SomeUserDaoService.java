@@ -2,6 +2,7 @@ package com.demo.eduardo.demo4.user;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -41,8 +42,16 @@ public class SomeUserDaoService {
 		return null;
 	}
 	
-	public void deleteSomeUser(int id) {
-		users.remove(id);
+	public SomeUser deleteSomeUserById(int id) {
+		Iterator<SomeUser> iterator = users.iterator();
+		while(iterator.hasNext()) {
+			SomeUser user = iterator.next();
+			if (user.getId() == id) {
+				iterator.remove();
+				return user;
+			}
+		}
+		return null;
 	}
 	
 }
