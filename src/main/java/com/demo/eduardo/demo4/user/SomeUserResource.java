@@ -2,10 +2,12 @@ package com.demo.eduardo.demo4.user;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
@@ -27,6 +29,7 @@ public class SomeUserResource {
 	
 	@Autowired
 	private SomeUserDaoService someUserDaoService;
+	private MessageSource messageSource;  // Used for i18d
 	
 	// Get one
 	@GetMapping("/users/{id}")
@@ -35,7 +38,7 @@ public class SomeUserResource {
 		if(someUser == null) {
 			throw new UserNotFoundException("id-" +id);
 		}
-		
+		// HATEOAS simple example
 		EntityModel<SomeUser> resource = new EntityModel<SomeUser>(someUser);
 		
 		WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsersList());
@@ -74,5 +77,18 @@ public class SomeUserResource {
 		}
 	}
 	
-
+	@GetMapping("/users/{id}/i18d-birthday-msg")
+	public String i18dBirthdayMsg(@PathVariable int id, Locale locale) {
+		SomeUser someUser = someUserDaoService.findSomeUser(id);
+		if(someUser == null) {
+			throw new UserNotFoundException("id---" +id);
+		}
+		
+		String messageSource.("i18d.birthday.message", null, locale);
+		
+		String birthdayMsg = 
+		
+		return birthdayMsg;
+	}
+	
 }
