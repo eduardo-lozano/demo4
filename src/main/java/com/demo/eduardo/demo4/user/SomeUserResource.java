@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,7 +30,8 @@ public class SomeUserResource {
 	
 	@Autowired
 	private SomeUserDaoService someUserDaoService;
-	private MessageSource messageSource;  // Used for i18d
+	@Autowired
+	private MessageSource messageSource;  // Used for i18n
 	
 	// Get one
 	@GetMapping("/users/{id}")
@@ -77,18 +79,17 @@ public class SomeUserResource {
 		}
 	}
 	
-	@GetMapping("/users/{id}/i18d-birthday-msg")
-	public String i18dBirthdayMsg(@PathVariable int id, Locale locale) {
+	@GetMapping("/users/{id}/i18n-birthday-msg")
+	public String i18nBirthdayMsg(@PathVariable int id, @RequestHeader(name="Accept-Language", required=false ) Locale locale) {
 		SomeUser someUser = someUserDaoService.findSomeUser(id);
 		if(someUser == null) {
 			throw new UserNotFoundException("id---" +id);
 		}
 		
-		String messageSource.("i18d.birthday.message", null, locale);
+		String i18nMessage = messageSource.getMessage("i18n.birthday.message", null, locale);
+		String fullBirthdayMessage = i18nMessage + someUser.getBirthDate().toString();
 		
-		String birthdayMsg = 
-		
-		return birthdayMsg;
+		return fullBirthdayMessage;
 	}
 	
 }

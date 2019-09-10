@@ -19,14 +19,14 @@ public class Demo4Application {
 	}
 
 	@Bean
-	public 	LocaleResolver localeResolver() {
+	public LocaleResolver localeResolver() {
 		// Get new specific session
 		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
 		// Add the field value of default locale into this session
 		sessionLocaleResolver.setDefaultLocale(Locale.US);
 		return sessionLocaleResolver;
 	}
-	
+
 	@Bean
 	public ResourceBundleMessageSource messageSource() {
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
