@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
@@ -80,13 +81,13 @@ public class SomeUserResource {
 	}
 	
 	@GetMapping("/users/{id}/i18n-birthday-msg")
-	public String i18nBirthdayMsg(@PathVariable int id, @RequestHeader(name="Accept-Language", required=false ) Locale locale) {
+	public String i18nBirthdayMsg(@PathVariable int id ) {
 		SomeUser someUser = someUserDaoService.findSomeUser(id);
 		if(someUser == null) {
 			throw new UserNotFoundException("id---" +id);
 		}
 		
-		String i18nMessage = messageSource.getMessage("i18n.birthday.message", null, locale);
+		String i18nMessage = messageSource.getMessage("i18n.birthday.message", null, LocaleContextHolder.getLocale() );
 		String fullBirthdayMessage = i18nMessage + someUser.getBirthDate().toString();
 		
 		return fullBirthdayMessage;
