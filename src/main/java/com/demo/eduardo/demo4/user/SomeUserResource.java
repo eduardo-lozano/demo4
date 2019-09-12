@@ -7,11 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,15 +32,15 @@ public class SomeUserResource {
 	
 	// Get one
 	@GetMapping("/users/{id}")
-	public EntityModel<SomeUser> retrieveSomeUser(@PathVariable int id) {
+	public Resource<SomeUser> retrieveSomeUser(@PathVariable int id) {
 		SomeUser someUser = someUserDaoService.findSomeUser(id);
 		if(someUser == null) {
 			throw new UserNotFoundException("id-" +id);
 		}
 		// HATEOAS simple example
-		EntityModel<SomeUser> resource = new EntityModel<SomeUser>(someUser);
+		Resource<SomeUser> resource = new Resource<SomeUser>(someUser);
 		
-		WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsersList());
+		ControllerLinkBuilder linkTo = linkTo(methodOn(this.getClass()).retrieveAllUsersList());
 		resource.add(linkTo.withRel("all-users"));
 		
 		return resource;
