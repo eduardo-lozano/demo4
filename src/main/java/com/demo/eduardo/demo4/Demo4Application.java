@@ -1,5 +1,5 @@
 package com.demo.eduardo.demo4;
-// Comment to test git hub commits
+
 import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
@@ -21,7 +21,7 @@ public class Demo4Application {
 	public LocaleResolver localeResolver() {
 		// Get new specific session
 		AcceptHeaderLocaleResolver sessionLocaleResolver = new AcceptHeaderLocaleResolver();
-		// ??
+
 		sessionLocaleResolver.setDefaultLocale(Locale.US);
 		return sessionLocaleResolver;
 	}
