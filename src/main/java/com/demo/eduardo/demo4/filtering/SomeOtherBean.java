@@ -1,11 +1,11 @@
 package com.demo.eduardo.demo4.filtering;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@JsonIgnoreProperties (value= {"secondField", "thirdField"})
 public class SomeOtherBean {
 	
 	public String firstField;
+	@JsonIgnore
 	public String secondField;
 	public String thirdField;
 	
