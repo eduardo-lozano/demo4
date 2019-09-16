@@ -1,19 +1,19 @@
 package com.demo.eduardo.demo4.filtering;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties (value= {"secondField", "thirdField"})
 public class SomeOtherBean {
 	
 	public String firstField;
 	public String secondField;
-	@JsonIgnore
-	public String thirdFiled;
+	public String thirdField;
 	
-	public SomeOtherBean(String firstField, String secondField, String thirdFiled) {
+	public SomeOtherBean(String firstField, String secondField, String thirdField) {
 		super();
 		this.firstField = firstField;
 		this.secondField = secondField;
-		this.thirdFiled = thirdFiled;
+		this.thirdField = thirdField;
 	}
 
 	public String getFirstField() {
@@ -32,12 +32,12 @@ public class SomeOtherBean {
 		this.secondField = secondField;
 	}
 
-	public String getThirdFiled() {
-		return thirdFiled;
+	public String getThirdField() {
+		return thirdField;
 	}
 
-	public void setThirdFiled(String thirdFiled) {
-		this.thirdFiled = thirdFiled;
+	public void setThirdField(String thirdField) {
+		this.thirdField = thirdField;
 	}
 
 }
