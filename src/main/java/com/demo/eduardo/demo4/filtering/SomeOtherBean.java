@@ -1,11 +1,11 @@
 package com.demo.eduardo.demo4.filtering;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
+@JsonFilter("EduardoDemoBeanFilter")   // Don't forget to add the filter name in here, or it won't work and you won't know why.
 public class SomeOtherBean {
 	
 	public String firstField;
-	@JsonIgnore
 	public String secondField;
 	public String thirdField;
 	
