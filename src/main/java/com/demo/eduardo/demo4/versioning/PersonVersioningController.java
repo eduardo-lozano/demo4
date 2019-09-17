@@ -38,4 +38,15 @@ public class PersonVersioningController {
 	public PersonV2 getPersonByHeaderV2() {
 		return new PersonV2(new Name("Ed by header", "Lozano by header"));
 	}
+	
+	// MIME type versioning or Accept header versioning.
+	@GetMapping(value="/person/produces", produces="application/eduardo.demo4.app-v1+json")
+	public PersonV1 getPersonV1ByMimeType() {
+		return new PersonV1("Ed Lozano by MIME type");
+	}
+	
+	@GetMapping(value="/person/produces", produces="application/eduardo.demo4.app-v2+json")
+	public PersonV2 getPersonV2ByMimeType() {
+		return new PersonV2(new Name("Ed by MIME type", "Lozano by MIME type"));
+	}
 }
