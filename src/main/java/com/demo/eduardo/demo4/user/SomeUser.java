@@ -2,11 +2,18 @@ package com.demo.eduardo.demo4.user;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+// This declares an DB entity managed with JPA
+@Entity
 public class SomeUser {
 	
+	@Id
+	@GeneratedValue
 	private Integer id;
 	@Size(min=2, message="This message would be shown to notice that the name must have 2 or more characters.")
 	private String name;
