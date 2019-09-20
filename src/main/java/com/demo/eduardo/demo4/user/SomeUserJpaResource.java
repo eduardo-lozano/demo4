@@ -29,9 +29,7 @@ public class SomeUserJpaResource {
 	// This is for the new functionality
 	@Autowired
 	private SomeUserJpaRepository someUserJpaRepository;
-	// This is for the old functionality
-	@Autowired
-	private SomeUserDaoService someUserDaoService;
+	
 	@Autowired
 	private MessageSource messageSource;  // Used for i18n
 	
@@ -63,7 +61,7 @@ public class SomeUserJpaResource {
 	@PostMapping("/jpa/users")
 	public ResponseEntity<Object> createSomeUser(@Valid @RequestBody SomeUser user) {
 		// Creates new user and returns that Bean object
-		SomeUser savedUser = someUserDaoService.saveSomeUser(user);
+		SomeUser savedUser = someUserJpaRepository.save(user);
 		// Compose the URI of the new resource
 		URI uri = ServletUriComponentsBuilder
 					.fromCurrentRequest()
@@ -77,10 +75,8 @@ public class SomeUserJpaResource {
 	// Delete
 	@DeleteMapping("/jpa/users/{id}")
 	public void deleteSomeUser(@PathVariable int id) {
-		SomeUser someUser = someUserDaoService.deleteSomeUserById(id);
-		if (someUser == null) {
-			throw new UserNotFoundException("id--" +id);
-		}
+		// Returns nothing, and no need to handle exceptions here.
+		someUserJpaRepository.deleteById(id);
 	}
 	
 	@GetMapping("/jpa/users/{id}/i18n-birthday-msg")

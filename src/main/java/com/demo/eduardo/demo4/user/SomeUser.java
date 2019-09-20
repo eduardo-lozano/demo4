@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
-// This declares an DB entity managed with JPA
+// This declares this Bean as also a DB entity managed with JPA
 @Entity
 public class SomeUser {
 	
