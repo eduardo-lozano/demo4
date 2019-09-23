@@ -92,4 +92,12 @@ public class SomeUserJpaResource {
 		return fullBirthdayMessage;
 	}
 	
+	@GetMapping("/jpa/users/{id}/some-user-text-entries")
+	public List<SomeTextEntryRecord> getSomeUserTextEntries(@PathVariable int id) {
+		Optional<SomeUser> optionalUser = someUserJpaRepository.findById(id);
+		if (optionalUser.isEmpty()) {
+			throw new UserNotFoundException("id----" +id);
+		}
+		return optionalUser.get().getSomeTextEntryRecords();
+	}
 }

@@ -1,10 +1,12 @@
 package com.demo.eduardo.demo4.user;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -19,6 +21,9 @@ public class SomeUser {
 	private String name;
 	@Past
 	private Date birthDate;
+	
+	@OneToMany(mappedBy="someUser")
+	private List<SomeTextEntryRecord> someTextEntryRecords;
 	
 	protected SomeUser() {
 		
@@ -54,11 +59,17 @@ public class SomeUser {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
+	
+	public List<SomeTextEntryRecord> getSomeTextEntryRecords() {
+		return someTextEntryRecords;
+	}
+
+	public void setSomeTextEntryRecords(List<SomeTextEntryRecord> someTextEntryRecords) {
+		this.someTextEntryRecords = someTextEntryRecords;
+	}
 
 	@Override
 	public String toString() {
 		return "SomeUser [id=" + id + ", name=" + name + ", birthDate=" + birthDate + "]";
 	}
-	
-	
 }

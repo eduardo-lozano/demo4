@@ -1,3 +1,6 @@
 INSERT INTO SOME_USER VALUES(101, sysdate(), 'First Person')
 INSERT INTO SOME_USER VALUES(102, sysdate(), 'Second Person')
 INSERT INTO SOME_USER VALUES(103, sysdate(), 'Third Person')
+INSERT INTO SOME_TEXT_ENTRY_RECORD VALUES(10001, 'First post for first user', 101)
+INSERT INTO SOME_TEXT_ENTRY_RECORD VALUES(10002, 'Second post for first user', 101)
+INSERT INTO SOME_TEXT_ENTRY_RECORD VALUES(10003, 'First post for second user', 102)
