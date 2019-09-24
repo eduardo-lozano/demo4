@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice	// To use these exceptions across all the project
 @RestController		// Because it provides a response back
-public class EduardoResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
+public class Demo4ResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) {
@@ -25,6 +25,13 @@ public class EduardoResponseEntityExceptionHandler extends ResponseEntityExcepti
 
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+		
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(EntryRecordNotFoundException.class)
+	public ResponseEntity<Object> handleEntryRecordNotFoundException(EntryRecordNotFoundException ex, WebRequest request) {
 		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
 		
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);

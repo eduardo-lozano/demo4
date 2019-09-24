@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.demo.eduardo.demo4.exception.EntryRecordNotFoundException;
 import com.demo.eduardo.demo4.exception.UserNotFoundException;
 
 @RestController
@@ -29,6 +30,9 @@ public class SomeUserJpaResource {
 	// This is for the new functionality
 	@Autowired
 	private SomeUserJpaRepository someUserJpaRepository;
+	
+	@Autowired
+	private SomeTextEntryRecordJpaRepository someTextEntryRecordJpaRepository;
 	
 	@Autowired
 	private MessageSource messageSource;  // Used for i18n
@@ -93,11 +97,45 @@ public class SomeUserJpaResource {
 	}
 	
 	@GetMapping("/jpa/users/{id}/some-user-text-entries")
-	public List<SomeTextEntryRecord> getSomeUserTextEntries(@PathVariable int id) {
+	public List<SomeTextEntryRecord> retrieveSomeTextEntryRecords(@PathVariable int id) {
 		Optional<SomeUser> optionalUser = someUserJpaRepository.findById(id);
 		if (optionalUser.isEmpty()) {
 			throw new UserNotFoundException("id----" +id);
 		}
 		return optionalUser.get().getSomeTextEntryRecords();
+	}
+	
+	@PostMapping("/jpa/users/{id}/some-user-text-entries")
+	public ResponseEntity<Object> createSomeTextEntryRecord(@PathVariable int id, @RequestBody SomeTextEntryRecord someTextEntryRecord) {
+
+		Optional<SomeUser> someUserOption = someUserJpaRepository.findById(id);
+		if (someUserOption.isEmpty()) {
+			throw new UserNotFoundException("id-----" +id);
+		}
+		// The entry comes without the user, you have to add it.
+		SomeUser someUser = someUserOption.get();
+		someTextEntryRecord.setSomeUser(someUser);
+		// Save the SomeTextEntryRecord into the DB
+		SomeTextEntryRecord savedTextEntryRecord = someTextEntryRecordJpaRepository.save(someTextEntryRecord);
+		// Compose the URI of the new resource
+		URI uri = ServletUriComponentsBuilder
+					.fromCurrentRequest()
+					.path("/{entryId}")
+					.buildAndExpand(savedTextEntryRecord.getId())
+					.toUri();
+		// Create a response with status CREATED, and in the response header will be a "location = URI"
+		return ResponseEntity.created(uri).build();
+	}
+	
+	// Get a single text entry by id
+	@GetMapping("/jpa/some-user-text-entries/{entryId}")
+	public SomeTextEntryRecord retrieveSomeTextEntryRecord(@PathVariable int entryId) {
+		
+		Optional<SomeTextEntryRecord> one = someTextEntryRecordJpaRepository.findById(entryId);
+		if (one.isEmpty()) {
+			throw new EntryRecordNotFoundException("Entry record id-" +entryId);
+		}
+		// Note this will not return the user id since that field is annotated in the bean as @JsonIgnore
+		return one.get();
 	}
 }
